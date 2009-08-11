@@ -1,0 +1,100 @@
+ActsAsWiki
+===================
+
+Lets us make columns of a model work as a wiki with version history.
+
+Assumptions
+-----------
+stores column changes in one table per application called wiki_entries
+provides AR Class WikiEntry
+
+WikiEntry has following fields
+  user_id             # author_id
+  wikiable_id         # polymorphic wikiable item_id
+  wikiable_type       # polymorphic wikiable item_type
+  column_name         # wikiable class's column which acts as wiki
+  data                # stores actual data
+  summary             # stores summary for the change
+  sources             # sources for the data
+  version             # version number
+  reverted            # particular row is reverted or not
+  created_at          # creation date for the entry
+
+rollback returns data to previous version but increments current version by 1
+columns are text fields
+
+user_id is corresponds to id field of User model
+
+Installation
+------------
+unarchive the plugin in RAILS_ROOT/vendor/plugins folder
+ruby script/generate acts_as_wiki_migration
+rake db:migrate
+
+Example
+-------
+class Actor < ActiveRecord::Base
+  acts_as_wiki :biography
+end
+#  Current Version
+actor.biography #=> curent biography of actor
+actor.biography.version #=> 6
+actor.biography.summary #=> summary for the current biography
+actor.biography.sources #=> sources for the current biography
+actor.biography.user_id #=> author id for the current biography
+actor.biography.user #=> author for the current biography
+actor.biography.rollbacked? #=> the current biography is rollbacked ?
+
+#   Old Versions
+actor.biography.data(4) #=> biography from version 4
+actor.biography.summary(4) #=> summary from version 4
+actor.biography.sources(4) #=> sources from version 4
+actor.biography.user(4) #=> author from version 4
+actor.biography.user_id(4) #=> author_id form version 4
+actor.biography.rollbacked?(4) #=> rollback status for version 4
+
+#   Finder (Return WikiEntry Obj or Collection of WikiEntry Objs)
+actor.biography.find(:first) #=> Returns WikiEntry Obj for current version
+actor.biography.find(:all)   #=> decreasing in version all revisions
+actor.biography.find(:first, :conditions => {:version => 2})
+actor.biography.find(:all, :order => 'version ASC') #=> reverse order
+    
+#   Saving Biography with actor.save
+#   (changing one or more actor attributes and saving the actor record in one go)
+#    Solution 1
+actor.biography = 'New biography'
+actor.biography.edit(:user_id => 1, :summary => 'new', :sources=>'hello')
+actor.save
+#    Solution 2
+actor.biography = {:data => 'New biography', :user_id => 1,  :summary => 'new', :sources => 'hello'}
+actor.save
+#    Solution 3
+actor.biography.edit(:data => 'New biography', :user_id => 1, :summary => 'new', :sources => 'hello')
+actor.save
+
+#    Updating Only Biography Field with actor.biography.save
+#    (updating only biography field of the actor)
+#    Solution 1
+# actor.biography = 'New biography'
+# actor.biography.edit(:user_id => 1, :summary => 'new', :sources=>'hello')
+# actor.biography.save
+#    Solution 2
+actor.biography = {:data => 'New biography', :user_id => 1, :summary => 'new', :sources => 'hello'}
+actor.biography.save
+#    Solution 3
+actor.biography.edit(:data => 'New biography', :user_id => 1, :summary => 'new', :sources => 'hello')
+actor.biography.save
+
+#    Rollback to Previous Versions
+#    (rollback always create a new record with next version but old data)
+#    while rollbacking if summary is not provided it is autoset
+actor.biography.rollback(4, user_id) #=> rollback to version 4 with user_id
+actor.biography.rollback(4, user_id, "rb v4") #=> with summary also
+actor.biography.rollback(4, user) #=> rollback with user instead of user_id
+actor.biography.rollabck(4, user, "rb v4") #=> with summary and user
+
+#    Changes Between Two Versions
+actor.biography.diff(3, 4)  # gives array of changes b/w version 3 & 4
+
+Copyright (c) 2009 Poliza iLabs, released under the MIT license
+

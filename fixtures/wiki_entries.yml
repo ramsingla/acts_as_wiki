@@ -1,0 +1,58 @@
+wiki_1:
+  id: 1
+  wikiable_type: SampleActor
+  wikiable_id: 1
+  column_name: biography
+  user_id: 3
+  summary: Mini Bio for Uma Thruman
+  data: Uma Karuna Thurman, daughter of Robert Thurman and Nena Thurman, was born in Boston, Massachusetts, on April 29, 1970.
+  sources: Imdb.com
+  reverted: false
+  version: 1
+  
+wiki_2:
+  id: 2
+  wikiable_type: SampleActor
+  wikiable_id: 1
+  column_name: biography
+  user_id: 1
+  summary: Mini Bio for Uma Thruman Updated
+  data: Uma Karuna Thurman, daughter of Robert Thurman and Nena Thurman, was born in Boston, Massachusetts, on April 29, 1970. Uma grew up in Amherst, Massachusetts, where her father worked at Amherst College. She left boarding school at just 15, already determined to become an actor. She moved to New York to follow her dream.
+  sources: Imdb.com
+  reverted: false
+  version: 2
+  
+wiki_3:
+  id: 3
+  wikiable_type: SampleActor
+  wikiable_id: 1
+  column_name: biography
+  user_id: 2
+  summary: Promotion on Kill Bill Movie
+  data: 30% off on all Kill Bill DVD's at foo.com
+  sources: foo.com
+  reverted: false
+  version: 3
+  
+wiki_4:
+  id: 4
+  wikiable_type: SampleActor
+  wikiable_id: 1
+  column_name: biography
+  user_id: 1
+  summary: Reverted to version 2
+  data: Uma Karuna Thurman, daughter of Robert Thurman and Nena Thurman, was born in Boston, Massachusetts, on April 29, 1970. Uma grew up in Amherst, Massachusetts, where her father worked at Amherst College. She left boarding school at just 15, already determined to become an actor. She moved to New York to follow her dream.
+  reverted: true
+  version: 4
+  
+wiki_5:
+  id: 5
+  wikiable_type: SampleActor
+  wikiable_id: 1
+  column_name: biography
+  user_id: 3
+  summary: Grammatical Error Corrected
+  data: Uma Karuna Thurman, daughter of Robert Thurman and Nena Thurman, was born in Boston, Massachusetts, on April 29, 1970. Uma grew up in Amherst, Massachusetts, where her father worked at Amherst College. She left boarding school at just 15, already determined to become an actress. She moved to New York to follow her dream.
+  reverted: false
+  version: 5
+  

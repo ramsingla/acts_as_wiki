@@ -1,0 +1,11 @@
+user_1:
+  id: 1
+  name: Moderator
+  
+user_2:
+  id: 2
+  name: Malicious User
+  
+user_3:
+  id: 3
+  name: Good User
